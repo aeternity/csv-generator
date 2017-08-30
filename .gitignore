@@ -2,3 +2,5 @@ node_modules/
 database.sqlite
 .env
 contributions.csv
+15k_ethereum_test_addresses.csv
+test_contributions.csv
