@@ -1,0 +1,40 @@
+{
+  "name": "aeternity-token-database",
+  "version": "1.0.0",
+  "main": "./src/main.js",
+  "scripts": {
+    "sync": "npm run clean && npm run currency-usd-eth && npm run currency-usd-btc && npm run currency-btc-eth && npm run currency-eth-aeternity && npm run transactions-eth && npm run transactions-btc",
+    "clean": "node ./src/clean.js",
+    "currency-eth-aeternity": "node ./src/aeternity-rates.js",
+    "currency-usd-eth": "node ./src/rates.js USDT_ETH",
+    "currency-usd-btc": "node ./src/rates.js USDT_BTC",
+    "currency-btc-eth": "node ./src/rates.js BTC_ETH",
+    "transactions-eth": "node ./src/transactions-eth.js",
+    "transactions-btc": "node ./src/transactions-btc.js",
+    "csv": "node ./src/export-csv.js",
+    "test": "mocha ./tests/**.test.js"
+  },
+  "dependencies": {
+    "async": "^2.4.1",
+    "big.js": "^3.1.3",
+    "bitcoinjs-lib": "^3.1.0",
+    "csv-write-stream": "^2.0.0",
+    "csvtojson": "^1.1.7",
+    "dotenv": "^4.0.0",
+    "ethereumjs-lib": "^3.0.0",
+    "express": "^4.15.3",
+    "lodash": "^4.17.4",
+    "pg": "^6.3.1",
+    "pg-hstore": "^2.3.2",
+    "progress": "^2.0.0",
+    "request": "^2.81.0",
+    "sequelize": "^4.4.0",
+    "sqlite3": "^3.1.8",
+    "stream-json": "^0.5.1"
+  },
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "mocha": "^3.4.2",
+    "should": "^11.2.1"
+  }
+}
