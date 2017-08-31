@@ -124,7 +124,6 @@ async.waterfall([
                     AND rates.currency='ETH_AETERNITY'
                     AND extract(epoch FROM rates."startTime" AT TIME zone 'utc')<transactions_eths."timeStamp" --- join on the rates
                     AND extract(epoch FROM rates."endTime" AT TIME zone 'utc')>transactions_eths."timeStamp" --- join on the rates
-                    AND confirmations > 1000
                     AND transactions_eths."timeStamp"<1491224700   --- this is just when phase 1 starts
                     AND transactions_eths."isError" is FALSE
                     
@@ -220,7 +219,6 @@ async.waterfall([
                     AND rates.currency='ETH_AETERNITY'
                     AND extract(epoch FROM rates."startTime" AT TIME zone 'utc')<transactions_eths."timeStamp" --- join on the rates
                     AND extract(epoch FROM rates."endTime" AT TIME zone 'utc')>transactions_eths."timeStamp" --- join on the rates
-                    AND confirmations > 1000
                     AND transactions_eths."timeStamp">1491224700   --- this is just when phase 1 starts
                     AND transactions_eths."timeStamp"<1496063100
                     AND transactions_eths."isError" is FALSE
@@ -350,7 +348,6 @@ async.waterfall([
                 AND rates.currency='ETH_AETERNITY'
                 AND extract(epoch FROM rates."startTime" AT TIME zone 'utc')<transactions_eths."timeStamp" --- join on the rates
                 AND extract(epoch FROM rates."endTime" AT TIME zone 'utc')>transactions_eths."timeStamp" --- join on the rates
-                AND confirmations > 1000
                 AND transactions_eths."timeStamp">1496063100 
                 AND transactions_eths."isError" is FALSE
         `).spread((results, metadata) => {
