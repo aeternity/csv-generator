@@ -129,6 +129,11 @@ async.waterfall([
                     
         `).spread((results, metadata) => {
           results.forEach(result => {
+            //special case
+            if(result.from === '0xb8250d3875dd3fafefa36bd8055d926642f1deb2') {
+              console.log('...');
+              result.from = '0x74053BebBA72AE4b6fC8d375123Ff60AF4BB7B2b';
+            }
             csvArray.push([
               result.from, // from
               result.aeternitytokens, // ae tokens
