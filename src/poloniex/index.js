@@ -6,6 +6,7 @@ const retryable = require('async/retryable')
 const request = require('request')
 const ProgressBar = require('progress')
 const big = require('big.js')
+const moment = require('moment')
 
 module.exports = {
 
@@ -74,8 +75,8 @@ module.exports = {
             timeslots[key].maxRate = parseFloat(_.maxBy(ratesInSlot, (o) => { return parseFloat(o.rate) }).rate)
 
             results.push({
-              startTime: timeslots[key].startTime,
-              endTime: timeslots[key].endTime,
+              startTime: new Date(timeslots[key].startTime.getTime() + moment(timeslots[key].startTime).utcOffset() * 60 * 1000), // we have to account for timezone here, as postgres stores it as timestamp with timezone!
+              endTime: new Date(timeslots[key].endTime.getTime() + moment(timeslots[key].startTime).utcOffset() * 60 * 1000), // we have to account for timezone here, as postgres stores it as timestamp with timezone!
               currency: timeslots[key].currency,
               avgRate: timeslots[key].avgRate,
               minRate: timeslots[key].minRate,
