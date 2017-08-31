@@ -4,7 +4,7 @@ To setup the database and calculate the token distribution,, follow the describe
 
 ## 1. Setup Postgres
 
-To make sure you have a database that is able to handle large numbers correctly, setup postgres locally. Generate all tables after setting up postgres using `npm run clean`. 
+To make sure you have a database that is able to handle large numbers correctly, setup postgres locally. Generate all tables after setting up postgres using `npm run clean`.
 
 ## 2. Configure Environment
 
@@ -12,7 +12,7 @@ You will need to supply an Etherscan.io API Key to run the project. Either using
 
 ## 3. Sync Data
 
-Then simply use `npm run sync`. This will automatically fetch all necessary poloniex currency data and ETH/BTC transactions. 
+Then simply use `npm run sync`. This will automatically fetch all necessary poloniex currency data and ETH/BTC transactions.
 
 ## 4. Export CSV-Data
 
@@ -29,6 +29,14 @@ Addresses were generated with a BIP39 Mnemonic (https://iancoleman.github.io/bip
 BIP39 Mnemonic: "sand rough seminar response furnace multiply ship glide hire nation strategy conduct"
 
 BIP32 Derivation Path: "m/44'/60'/0'/0"
+
+## 6. Append manually created csv
+
+Run `npm run append-csv` to append a manually created `manual-contributions.csv` to the previously created `contributions.csv`.
+
+`manual-contributions.csv` must be the same csv format as `contributions.csv` **without** a header.
+
+This will print hashes of the files pre and post appending.
 
 
 # FAQ
@@ -55,7 +63,7 @@ For example, to find out how many tokens each ether-contribution-address gets, y
 
 ```
 SELECT transactions_eths."from", sum((transactions_eths.value/ 1000000000000000000.0) * rates."avgRate") as tokens, sum(transactions_eths.value / 1000000000000000000.0) as ether
-    FROM rates, transactions_eths WHERE 
+    FROM rates, transactions_eths WHERE
         rates."currency" = 'ETH_AETERNITY'
 	AND extract(epoch from rates."startTime") <= transactions_eths."timeStamp"
         AND extract(epoch from rates."endTime") > transactions_eths."timeStamp"
