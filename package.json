@@ -12,6 +12,7 @@
     "transactions-eth": "node ./src/transactions-eth.js",
     "transactions-btc": "node ./src/transactions-btc.js",
     "csv": "node ./src/export-csv.js",
+    "append-csv": "node ./src/append-csv.js",
 		"test-csv": "awk -F ',' '{print $1}' 15k_ethereum_test_addresses_and_privatekeys.csv > 15k_ethereum_test_addresses.csv && awk -F ',' 'FNR==NR{OFS=FS;a[NR]=$1;next}{$1=a[FNR]}1' 15k_ethereum_test_addresses.csv contributions.csv > test_contributions.csv",
     "test": "mocha ./tests/**.test.js"
   },

@@ -6,6 +6,7 @@ To setup the database and calculate the token distribution,, follow the describe
 
 You will need to supply an Etherscan.io API Key to run the project. Either using an environment-variable named `ETHERSCAN_API_TOKEN` or by creating a `.env` file. You can use the supplied `.env.default` as a template. The file also allows you to configure your postgres parameters for your system.
 
+## 2. Configure Environment
 
 ## 2. Setup Docker
 * Install docker and docker-compose
@@ -37,6 +38,14 @@ Addresses were generated with a BIP39 Mnemonic (https://iancoleman.github.io/bip
 BIP39 Mnemonic: "sand rough seminar response furnace multiply ship glide hire nation strategy conduct"
 
 BIP32 Derivation Path: "m/44'/60'/0'/0"
+
+## 6. Append manually created csv
+
+Run `npm run append-csv` to append a manually created `manual-contributions.csv` to the previously created `contributions.csv`.
+
+`manual-contributions.csv` must be the same csv format as `contributions.csv` **without** a header.
+
+This will print hashes of the files pre and post appending.
 
 
 # FAQ
