@@ -12,7 +12,7 @@ You will need to supply an Etherscan.io API Key to run the project. Either using
 * Run `docker-compose build`
 * Run `docker-compose up -d pgsql`
 * Run `docker-compose run --rm csv-generator bash`
-asd
+
 
 Generate all tables after setting up postgres using `npm run clean`.
 
