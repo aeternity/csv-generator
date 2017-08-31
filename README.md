@@ -18,6 +18,19 @@ Then simply use `npm run sync`. This will automatically fetch all necessary polo
 
 Use `npm run csv` to generate a `contributors.csv` with all necessary data.
 
+## 5. Export Test CSV-Data
+
+Use `npm run test-csv` to generate a `test_contributors.csv` with all necessary data.
+
+This file is for a test deploy of a fake token only. DO NOT SEND ANYTHING OF VALUE to these addresses.
+
+Addresses were generated with a BIP39 Mnemonic (https://iancoleman.github.io/bip39/
+
+BIP39 Mnemonic: "sand rough seminar response furnace multiply ship glide hire nation strategy conduct"
+
+BIP32 Derivation Path: "m/44'/60'/0'/0"
+
+
 # FAQ
 
 ### Currency Rates
