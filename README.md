@@ -2,17 +2,25 @@
 
 To setup the database and calculate the token distribution,, follow the described steps:
 
-## 1. Setup Postgres
-
-To make sure you have a database that is able to handle large numbers correctly, setup postgres locally. Generate all tables after setting up postgres using `npm run clean`. 
-
-## 2. Configure Environment
+## 1. Configure Environment
 
 You will need to supply an Etherscan.io API Key to run the project. Either using an environment-variable named `ETHERSCAN_API_TOKEN` or by creating a `.env` file. You can use the supplied `.env.default` as a template. The file also allows you to configure your postgres parameters for your system.
 
+
+## 2. Setup Docker
+* Install docker and docker-compose
+* Run `docker-compose build`
+* Run `docker-compose up -d pgsql`
+* Run `docker-compose run --rm csv-generator bash`
+
+
+Generate all tables after setting up postgres using `npm run clean`.
+
+
+
 ## 3. Sync Data
 
-Then simply use `npm run sync`. This will automatically fetch all necessary poloniex currency data and ETH/BTC transactions. 
+Then simply use `npm run sync`. This will automatically fetch all necessary poloniex currency data and ETH/BTC transactions.
 
 ## 4. Export CSV-Data
 
@@ -55,7 +63,7 @@ For example, to find out how many tokens each ether-contribution-address gets, y
 
 ```
 SELECT transactions_eths."from", sum((transactions_eths.value/ 1000000000000000000.0) * rates."avgRate") as tokens, sum(transactions_eths.value / 1000000000000000000.0) as ether
-    FROM rates, transactions_eths WHERE 
+    FROM rates, transactions_eths WHERE
         rates."currency" = 'ETH_AETERNITY'
 	AND extract(epoch from rates."startTime") <= transactions_eths."timeStamp"
         AND extract(epoch from rates."endTime") > transactions_eths."timeStamp"
