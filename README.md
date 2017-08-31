@@ -6,18 +6,22 @@ To setup the database and calculate the token distribution,, follow the describe
 
 You will need to supply an Etherscan.io API Key to run the project. Either using an environment-variable named `ETHERSCAN_API_TOKEN` or by creating a `.env` file. You can use the supplied `.env.default` as a template. The file also allows you to configure your postgres parameters for your system.
 
-## 2. Configure Environment
 
 ## 2. Setup Docker
 * Install docker and docker-compose
 * Run `docker-compose build`
 * Run `docker-compose up -d pgsql`
 * Run `docker-compose run --rm csv-generator bash`
-
+asd
 
 Generate all tables after setting up postgres using `npm run clean`.
 
+Use `docker-compose down` and re-run these steps after every code change
 
+### Some more Docker commands:
+* Remove docker containers with `docker-compose down`
+* List Running containers and ID's with `docker ps`
+* Copy files from the Container to Host with , `docker cp CONTAINERID:PATH HOSTPATH`, for example contributions.csv `docker cp CONTAINERID:/usr/src/app/contributions.csv ./`
 
 ## 3. Sync Data
 
