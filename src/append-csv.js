@@ -2,6 +2,8 @@ const fs = require('fs');
 const crypto = require('crypto');
 const async = require('async');
 const csvtojson = require('csvtojson');
+const ethjs = require('ethereumjs-lib');
+const big = require('big.js');
 
 /**
  * This script appends a (headerless) manually created csv file to the generated contributions.csv
@@ -90,8 +92,15 @@ let validateCsv = function(filename, done) {
 };
 
 let isValidRow = function(row) {
-	//wow such test
-	return Object.keys(row).length == 11;
+	//wow such test.
+	if (Object.keys(row).length >= 2) {
+		try {
+			return ethjs.util.isValidAddress(row['field1']) && big(row['field2']).gte(0); // wow!
+		} catch (e) {
+			return false;
+		}
+	}
+	return false;
 };
 
 let appendFiles = function(filenameAppendTo, filenameAppendThis, done) {
