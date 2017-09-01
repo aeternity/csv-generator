@@ -69,7 +69,7 @@ async.waterfall([
   (callback) => {
     sequelize.query(`
             SELECT *,(outputs_btcs.value*23.6941*cast(${config.phases.find(obj => obj.maxBlockTime === 1491311100).factor} as numeric))/100000000.0 AS aeternityTokens --- 23.6941 was the fixed rate, 100000000 is bitcoin to satoshi conversion
-            FROM inputs_btcs,outputs_btcs,transactions_btcs,rates WHERE 
+            FROM inputs_btcs,outputs_btcs,transactions_btcs,rates WHERE
                 outputs_btcs.transactions_btc_uuid = transactions_btcs.uuid
                 AND inputs_btcs.transactions_btc_uuid = transactions_btcs.uuid
                 AND (outputs_btcs.addr='3D1YpQirXKZGn7ydnh6oUPWzo5WC4sd4Nc' --- Phase 2
@@ -112,7 +112,7 @@ async.waterfall([
   (callback) => {
     sequelize.query(`
             SELECT *,(transactions_eths.value*cast(${config.phases.find(obj => obj.maxBlockTime === 1491311100).factor} as numeric))/1000000000000000000.0 AS aeternityTokens FROM transactions_eths,rates --- 1000000000000000000.0 wei to ether rate
-                WHERE 
+                WHERE
                     (
                         LOWER(transactions_eths.to)=LOWER('0x6cc2d616e56e155d8a06e65542fdb9bd2d7f3c2e') --- Phase 1
                         OR LOWER(transactions_eths.to)=LOWER('0xBEc591De75b8699A3Ba52F073428822d0Bfc0D7e') --- Phase 2
@@ -126,14 +126,9 @@ async.waterfall([
                     AND extract(epoch FROM rates."endTime" AT TIME zone 'utc')>transactions_eths."timeStamp" --- join on the rates
                     AND transactions_eths."timeStamp"<1491224700   --- this is just when phase 1 starts
                     AND transactions_eths."isError" is FALSE
-                    
+
         `).spread((results, metadata) => {
           results.forEach(result => {
-            //special case
-            if(result.from === '0xb8250d3875dd3fafefa36bd8055d926642f1deb2') {
-              console.log('...');
-              result.from = '0x74053BebBA72AE4b6fC8d375123Ff60AF4BB7B2b';
-            }
             csvArray.push([
               result.from, // from
               result.aeternitytokens, // ae tokens
@@ -167,7 +162,7 @@ async.waterfall([
   (callback) => {
     sequelize.query(`
             SELECT *,(outputs_btcs.value*23.6941*rates."avgRate")/100000000.0 AS aeternityTokens --- 23.6941 was the fixed rate, 100000000 is bitcoin to satoshi conversion
-            FROM inputs_btcs,outputs_btcs,transactions_btcs,rates WHERE 
+            FROM inputs_btcs,outputs_btcs,transactions_btcs,rates WHERE
                 outputs_btcs.transactions_btc_uuid = transactions_btcs.uuid
                 AND inputs_btcs.transactions_btc_uuid = transactions_btcs.uuid
                 AND (outputs_btcs.addr='3D1YpQirXKZGn7ydnh6oUPWzo5WC4sd4Nc' --- Phase 2
@@ -212,7 +207,7 @@ async.waterfall([
   (callback) => {
     sequelize.query(`
             SELECT *,(transactions_eths.value*rates."avgRate")/1000000000000000000.0 AS aeternityTokens FROM transactions_eths,rates --- 1000000000000000000.0 wei to ether rate
-                WHERE 
+                WHERE
                     (
                         LOWER(transactions_eths.to)=LOWER('0x6cc2d616e56e155d8a06e65542fdb9bd2d7f3c2e') --- Phase 1
                         OR LOWER(transactions_eths.to)=LOWER('0xBEc591De75b8699A3Ba52F073428822d0Bfc0D7e') --- Phase 2
@@ -227,10 +222,15 @@ async.waterfall([
                     AND transactions_eths."timeStamp">1491224700   --- this is just when phase 1 starts
                     AND transactions_eths."timeStamp"<1496063100
                     AND transactions_eths."isError" is FALSE
-                    
+
         `).spread((results, metadata) => {
 
           results.forEach(result => {
+            //special case
+            if(result.from === '0xb8250d3875dd3fafefa36bd8055d926642f1deb2') {
+              console.log('...');
+              result.from = '0x74053BebBA72AE4b6fC8d375123Ff60AF4BB7B2b';
+            }
             csvArray.push([
               result.from, // from
               result.aeternitytokens, // ae tokens
@@ -269,8 +269,8 @@ async.waterfall([
             AND extract(epoch FROM rates."startTime" AT TIME zone 'utc') > transactions_btcs."time" ORDER BY transactions_btcs."time" ASC LIMIT 1) * (("value" / 100000000.0)) as usdValue
             FROM inputs_btcs,outputs_btcs,transactions_btcs,rates,
                 (SELECT transactions_btcs.hash,(outputs_btcs.value/rates."avgRate") AS ethereum_conversion --- 100000000 is bitcoin to satoshi conversion
-                FROM inputs_btcs,outputs_btcs,transactions_btcs,rates 
-                    WHERE 
+                FROM inputs_btcs,outputs_btcs,transactions_btcs,rates
+                    WHERE
                         outputs_btcs.transactions_btc_uuid = transactions_btcs.uuid
                         AND inputs_btcs.transactions_btc_uuid = transactions_btcs.uuid
                         AND (outputs_btcs.addr='3D1YpQirXKZGn7ydnh6oUPWzo5WC4sd4Nc' --- Phase 2
@@ -281,7 +281,7 @@ async.waterfall([
                         AND inputs_btcs.index=0.0  --- assumption: we only take first input as "contributer"
                         AND inputs_btcs.converted_eth_address NOTNULL  --- removes all invalid addresses
                         AND transactions_btcs.time>1496063100) AS btctoeth_helper_suquery
-                WHERE 
+                WHERE
                     outputs_btcs.transactions_btc_uuid = transactions_btcs.uuid
                     AND inputs_btcs.transactions_btc_uuid = transactions_btcs.uuid
                     AND (outputs_btcs.addr='3D1YpQirXKZGn7ydnh6oUPWzo5WC4sd4Nc' --- Phase 2
@@ -341,7 +341,7 @@ async.waterfall([
           (SELECT rates."avgRate" FROM rates WHERE rates.currency = 'USDT_ETH'
         AND extract(epoch FROM rates."startTime" AT TIME zone 'utc') > transactions_eths."timeStamp" ORDER BY rates."startTime" ASC LIMIT 1) * (transactions_eths.value / 1000000000000000000.0) as usdvalue
           FROM transactions_eths,rates --- 1000000000000000000.0 wei to ether rate
-            WHERE 
+            WHERE
                 (
                     LOWER(transactions_eths.to)=LOWER('0x6cc2d616e56e155d8a06e65542fdb9bd2d7f3c2e') --- Phase 1
                     OR LOWER(transactions_eths.to)=LOWER('0xBEc591De75b8699A3Ba52F073428822d0Bfc0D7e') --- Phase 2
@@ -353,7 +353,7 @@ async.waterfall([
                 AND rates.currency='ETH_AETERNITY'
                 AND extract(epoch FROM rates."startTime" AT TIME zone 'utc')<transactions_eths."timeStamp" --- join on the rates
                 AND extract(epoch FROM rates."endTime" AT TIME zone 'utc')>transactions_eths."timeStamp" --- join on the rates
-                AND transactions_eths."timeStamp">1496063100 
+                AND transactions_eths."timeStamp">1496063100
                 AND transactions_eths."isError" is FALSE
         `).spread((results, metadata) => {
           results.forEach(result => {
