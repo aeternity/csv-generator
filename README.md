@@ -1,6 +1,6 @@
 # Aeternity Token Database
 
-To setup the database and calculate the token distribution,, follow the described steps:
+To setup the database and create the CSV with the initial token distribution on the Ethereum network, follow the described steps:
 
 ## 1. Configure Environment
 
