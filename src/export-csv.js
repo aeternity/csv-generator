@@ -16,7 +16,8 @@ const testAddresses = config.ETH.test
 
 // 6h cutoff
 const capReached = 1497010079
-const capReached6h = capReached + 60 * 60 * 6 // reached at tx 0x140b315651bbf08c2b84fdd970fdfce2c053f4b40fc7260d7f1919fe2b0d1d6a
+// reached at tx 0x140b315651bbf08c2b84fdd970fdfce2c053f4b40fc7260d7f1919fe2b0d1d6a
+const capReached6h = capReached + 60 * 60 * 6
 
 // spam cutoff
 const spamCutOffUSD = 0.05 // 5 cent cutoff
@@ -45,12 +46,12 @@ let csvArray = []
 let writer = csvWriter({
   headers: [
     'Address',
-    'Tokens',
+    'AE',
     'Target',
     'Amount',
     'Currency',
-    'Fiat USD',
-    'Cumulative USD',
+    'Fiat CHF',
+    'Cumulative CHF',
     'Time',
     'TransactionID',
     'Phase',

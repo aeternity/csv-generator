@@ -37,8 +37,8 @@ let writer = csvWriter({
     'Target',
     'Amount',
     'Currency',
-    'Fiat USD',
-    'Cumulative USD',
+    'Fiat CHF',
+    'Cumulative CHF',
     'Time',
     'TransactionID',
     'Phase',
@@ -243,7 +243,8 @@ async.waterfall([
   writer.end()
   sequelize.close()
 
-  const ae100 = aeTotal
+  const ae82 = aeTotal
+  let ae100 = ae82/82*100
 
   console.log('')
   console.log('')
@@ -251,10 +252,21 @@ async.waterfall([
   console.log('BTC MultiSig Phase 1:', btcPhase1.div(satoshi).toFixed(10), 'BTC')
   console.log('BTC MultiSig Phase 2:', btcPhase2.div(satoshi).toFixed(10), 'BTC')
 
-  console.log('USD Cumulative Phase 2:', csvArray[csvArray.length - 1][6].toFixed(10), 'USD')
-  console.log('Filtered Out SpamTx:', spamCounter, ' | Worth:', spamValue.toFixed(10), 'USD')
+  console.log('CHF Cumulative Phase 2:', csvArray[csvArray.length - 1][6].toFixed(10), 'CHF')
+  console.log('Filtered Out SpamTx:', spamCounter, ' | Worth:', spamValue.toFixed(10), 'CHF')
 
-  console.log(`AE: ${ae100} AE`)
+  console.log()
+  // console.log(`AE: ${ae82} AE`)
+
+
+  console.log(`AE (82%) Contributors: ${ae82} AE`)
+  console.log(`AE (17%) Aeternity (Team, Bounties, Foundation, ...): ${ae100*.17} AE`)
+  console.log(`AE (1%) Mainnet Launch ${ae100*0.01} AE`)
+
+  console.log('')
+
+  console.log(`AE (100%): ${ae100} AE`)
+  console.log(ae100)
 
   console.log('')
   console.log('')
