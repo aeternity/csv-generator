@@ -54,6 +54,16 @@ This will print hashes of the files pre and post appending.
 
 # FAQ
 
+### Late Transactions
+To generate a list of all transactions that are late (either after Phase 1 or after Phase 2 Cap Reached +6 Hours), use:
+
+* `npm run csv-late`
+
+### Multi-Sig Transactions
+To generate a list of all transactions that were made from BTC MultiSig addresses, use:
+
+* `npm run csv-multisig`
+
 ### Currency Rates
 
 * `npm run currency-btc-eth` - Fetches the rates from Poloniex for BTC-ETH conversion
